@@ -34,7 +34,7 @@ def sharecount(url):
 
 def queue_url(url):
     """Add url to request queue and/or increase score."""
-    return url, redis.zincrby("url_queue",url,1.0)
+    return url, redis.zincrby("url_queue",1,url)
 
 
 def push_to_requested_queue(url):
@@ -63,6 +63,8 @@ def push_to_requested_queue(url):
 
 
 def twitter(url):
+    raise DeprecationWarning('This url has been removed by Twitter, '
+                             'with no replacement available')
     r = requests.get('http://urls.api.twitter.com/1/urls/count.json?url={}&callback=?'.format(url))
     if r.status_code == 200:
         count = r.json().get('count',0)
